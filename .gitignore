@@ -76,3 +76,5 @@ core
 #		Edit the following section as needed
 # For example, !report.pc overrides *.pc. See 'man gitignore'
 # 
+test/sunxi_disp_vsync_demo
+test/sunxi_g2d_bench
