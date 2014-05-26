@@ -36,6 +36,8 @@ fbturbo_drv_la_SOURCES = \
          cpuinfo.h \
          cpu_backend.c \
          cpu_backend.h \
+         fb_copyarea.c \
+         fb_copyarea.h \
          backing_store_tuner.c \
          backing_store_tuner.h \
          interfaces.h \
@@ -48,7 +50,9 @@ fbturbo_drv_la_SOURCES = \
          sunxi_disp_hwcursor.c \
          sunxi_disp_hwcursor.h \
          sunxi_video.c \
-         sunxi_video.h
+         sunxi_video.h \
+         sunxi_disp_ioctl.h \
+         g2d_driver.h
 
 if HAVE_LIBUMP
 fbturbo_drv_la_SOURCES += \

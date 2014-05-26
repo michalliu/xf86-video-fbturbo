@@ -23,7 +23,7 @@
 # Initialize Autoconf
 AC_PREREQ([2.60])
 AC_INIT([xf86-video-fbturbo],
-        [0.3.1],
+        [0.5.1],
         [https://github.com/ssvb/xf86-video-fbturbo],
         [xf86-video-fbturbo])
 AC_CONFIG_SRCDIR([Makefile.am])
@@ -88,13 +88,19 @@ fi
 save_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -pthread" 
 
-AC_CHECK_LIB([UMP], [ump_open],
-             [have_libump=yes
-              LIBS="$LIBS -lUMP"
-              AC_DEFINE(HAVE_LIBUMP,[1],[libUMP library])],
-             [have_libump=no])
-AC_CHECK_LIB([UMP], [ump_cache_operations_control],
-             [AC_DEFINE(HAVE_LIBUMP_CACHE_CONTROL,[1],[UMP cache control])])
+AC_CHECK_HEADER([ump/ump.h], [have_libump=yes], [have_libump=no])
+
+if test "x$have_libump" = xyes; then
+    AC_CHECK_LIB([UMP], [ump_open], [have_libump=yes], [have_libump=no])
+fi
+
+if test "x$have_libump" = xyes; then
+    LIBS="$LIBS -lUMP"
+    AC_DEFINE(HAVE_LIBUMP,[1],[libUMP library])
+    AC_CHECK_LIB([UMP], [ump_cache_operations_control],
+                 [AC_DEFINE(HAVE_LIBUMP_CACHE_CONTROL,[1],[UMP cache control])])
+fi
+
 AM_CONDITIONAL([HAVE_LIBUMP], [test x$have_libump = xyes])
 
 # revert back to the original CFLAGS if not messing with libUMP
